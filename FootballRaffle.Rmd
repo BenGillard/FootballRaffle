@@ -67,6 +67,8 @@ Teams %>% kbl(caption = "Take your pick!", align = "c", row.names = FALSE) %>%  
 
 Please fill out this simple entry form to submit your team to the raffle. Please send your £5 for entry to 98999052 52-10-05 (Gillard BT) with "raffle" and your name as the reference. If 2 people want to sponsor the same team, whomever paid first gets priority so get in quick.
 
+If the form isn't working for you you can find another version [here](https://docs.google.com/forms/d/e/1FAIpQLScHE6B-LhlKPxg_3Q56sQa7Sl1v94WwkQS0SiUu_F96i_7xsQ/viewform?usp=sf_link).
+
 ```{r entryform, echo=FALSE}
 shiny::includeHTML("https://docs.google.com/forms/d/e/1FAIpQLScHE6B-LhlKPxg_3Q56sQa7Sl1v94WwkQS0SiUu_F96i_7xsQ/viewform?embedded=true")
 ```
