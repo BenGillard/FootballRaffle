@@ -1,0 +1,83 @@
+---
+title: "My Football Team Raffle"
+author: "BT Gillard"
+date: "Updated: `r Sys.Date()`"
+output: 
+  html_document: 
+    toc: yes
+    toc_float: true
+    toc_depth: 4
+    theme: cerulean
+    code_folding: hide
+---
+
+<style>
+body {
+text-align: justify}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, tidy = TRUE, class.source = 'fold-hide')
+```
+
+```{r dataformatting, echo=FALSE}
+#Badges<- list.files(path = "Badges/", full.names = TRUE) #get badge file list
+#write.csv(x = Badges, file = "BadgeExport.csv") #export so it can be pasted into teams.csv
+
+Teams<- read.csv("Teams.csv")
+#Teams$Badge<- paste0("'![](", Teams$Badge, ")'")
+
+Teams$League<- as.factor(Teams$League)
+Teams$League<- factor(Teams$League, levels = c("Premier League", "Championship", "League One", "League Two"))
+
+
+Teams<- Teams[order(Teams$League, Teams$Team),]
+Teams$No.<- seq(1,92,1)
+Teams<- Teams[,c(5,1,2,3,4)]
+
+Badges<- Teams$Badge
+Teams$Badge<- ""
+```
+
+# Welcome to My Football Team Raffle
+
+The premise is simple, pick (sponsor) your favourite football team from the 92 professional league teams in England and Wales and be in with a chance of winning the jackpot! It could be the team you've always followed or just a badge you quite like the look of. But be quick, *only one person can sponsor a team* so make sure you get the one you want. Teams are ordered by league then alphabetically.
+
+The winning team will be drawn on 18th December 2022 so a win will be a nice bonus before Christmas.
+
+Like any raffle, *all tickets/teams have an equal chance of winning*. Its the only time that Stevenage have the same chance of winning as Manchester City.
+
+The reason I set this raffle up is to add a little bit extra to the wedding kitty for next year so the total pot is split 50/50. Half for the jackpot and half for the wedding fund. The wedding fund is going to be used for some bonus entertainment in the evening which should be great fun.
+
+Entry is a cheeky £5 so if we manage to get sponsors for all the teams, **the total jackpot could be a tasty £`r 92*2.5`**! Currently we have `r sum(!is.na(Teams$Sponsor))` teams sponsored so the jackpot is `r sum(!is.na(Teams$Sponsor))*2.5`.
+
+Have a scroll through the teams to see if yours is still available (NA means still available to sponsor) then **head to the [Entry Form] at the bottom of the page to submit your entry**.
+
+```{r sponsorpicks, echo=FALSE}
+library(kableExtra)
+Teams %>% kbl(caption = "Take your pick!", align = "c", row.names = FALSE) %>%  kable_classic(full_width = T, html_font = "Cambria") %>% column_spec(4, image = Badges)
+```
+
+# Entry form
+
+Please fill out this simple entry form to submit your team to the raffle. Please send your £5 for entry to 98999052 52-10-05 (Gillard BT). If 2 people want to sponsor the same team, whomever paid first gets priority.
+
+```{r entryform, echo=FALSE}
+shiny::includeHTML("https://docs.google.com/forms/d/e/1FAIpQLScHE6B-LhlKPxg_3Q56sQa7Sl1v94WwkQS0SiUu_F96i_7xsQ/viewform?embedded=true")
+```
+
+# Winners Draw
+
+On Sunday December 18 a draw will be made using all the sponsored teams. A random number generator will select a winner (numbers are by the side of the team names).
+
+```{r winnersDraw, eval=FALSE}
+
+Entries<- Teams[!is.na(Teams$Sponsor),] #extract all teams with sponsors from master list
+
+Entries[sample(1:nrow(Entries), 1),] #randomly choose a jackpot winner
+
+```
+
+# Qatar 2022 Predictor Game
+
+You can also try your luck in the [World Cup Predictor Game](https://bengillard.github.io/Qatar2022Predictor/) where you can try and guess all the scores in the group stages in Qatar, competing against other hapless guessers. Get your entries for the Predictor game in before Friday 18th November to play.
